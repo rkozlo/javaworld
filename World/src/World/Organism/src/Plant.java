@@ -1,8 +1,4 @@
 public abstract class Plant extends Organism {
-
-    static int powerToReproduce = 3;
-
-    Plant(){}
     public Plant(World world, Position pos, int initiative, char species, int liveLength, int powerToReproduce){
         super(world, pos, initiative, species, liveLength, powerToReproduce);
     }

@@ -1,25 +1,13 @@
-import java.util.Set;
-
 public class Wolf extends Animal {
-    private static Set<Character> feed;
-    Wolf (World world, Position pos){
-//        super(world, pos);
-        this.power = 8;
-        this.initiative = 5;
-        this.species = 'W';
-        this.liveLength = 40;
+    Wolf (World world, int x, int y){
+        super(world, new Position(x, y), 5, 'W', 40, 8);
+//        this.feed = new ArrayList<>();
+//        this.feed.add('S');
     }
-    static{
-        feed.add('S');
-    }
+
     public boolean specialAction(Position pos){
         return true;
     }
-//    @Override
-//    public void individualAction(){}
-//    public void hunt(){
-//    }
-//
     public void feeded(){
 
     }

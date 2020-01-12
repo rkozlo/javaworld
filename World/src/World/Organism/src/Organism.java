@@ -1,7 +1,5 @@
-import java.util.List;
-
 public abstract class Organism{
-    protected int power=0;
+    protected int power;
     protected int initiative;
     protected Position position;
     protected int age;
@@ -10,6 +8,7 @@ public abstract class Organism{
     protected char species;
     protected int powerToReproduce;
     protected int liveLength;
+    protected boolean isDead;
 
     public Organism(World world, Position pos, int initiative, char species, int liveLength, int powerToReproduce){
         this.world = world;
@@ -21,6 +20,7 @@ public abstract class Organism{
         this.liveLength = liveLength;
         this.powerToReproduce = powerToReproduce;
         world.addOrganism(this);
+        this.isDead = false;
     }
 
 //    Organism(World world, int x, int y){
@@ -28,7 +28,6 @@ public abstract class Organism{
 //        this.position.setX(x);
 //        this.position.setY(y);
 //    }
-    Organism(){ }
 //    public abstract void individualAction();
 
 //    public abstract void move();
@@ -37,9 +36,6 @@ public abstract class Organism{
         return this.species;
     }
 
-    public void setWorld(World world){
-        this.world= world;
-    }
     public abstract void action();
 
     public int getPower() {
@@ -82,6 +78,10 @@ public abstract class Organism{
         return result;
     }
 
+    public boolean ifIsDead(){
+        return isDead;
+    }
+
     public void makeMove(){
         if (this.age >= liveLength){
             world.delOrganism(this);
@@ -102,6 +102,10 @@ public abstract class Organism{
         return null;
     }
 
+    public void killOrganism(){
+        world.delOrganism(this);
+        this.isDead = true;
+    }
 
 //    public void getNeighboringPosition(){
 //        return this.world.getNeighboringPositions(this.position);

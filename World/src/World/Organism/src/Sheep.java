@@ -1,16 +1,11 @@
-public class Sheep extends Animal {
+import java.util.ArrayList;
 
-    Sheep(World world, Position pos) {
-        super(world, pos, 5, 'S', 20, 8);
-    }
+public class Sheep extends Animal {
 
     Sheep(World world, int x, int y) {
         super(world, new Position(x, y), 5, 'S', 20, 8);
-//        this.feed = new char[]{'G'};
-//        this.liveLength = 20;
-//        this.power = 4;
-//        this.initiative = 5;
-//        this.species = 'S';
+        this.feed = new ArrayList<>();
+        feed.add('G');
     }
 
     public void feeded() {
