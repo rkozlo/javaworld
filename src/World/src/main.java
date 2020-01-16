@@ -1,19 +1,58 @@
-import java.util.Scanner;
-
 public class main {
 
     public static void main(String[] args) {
-        World world = new World(10, 10);
-        Grass trawa = new Grass(world, 2, 9);
-        Sheep owca = new Sheep(world, 1, 1);
-        Sheep owca1 = new Sheep(world, 0, 0);
+        World world = new World(100, 40);
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('W');
+//        world.addRandomOrganism('W');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('T');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('T');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('W');
+//        world.addRandomOrganism('W');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('T');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('T');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('W');
+//        world.addRandomOrganism('W');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('S');
+//        world.addRandomOrganism('T');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('G');
+//        world.addRandomOrganism('T');
+        world.fillTheWorld();
         int i = 0;
-        while (i < 20) {
+        while (i < 200) {
             world.makeTurn();
             i++;
-//            if (i == 5) {
-//                Scanner scan = new Scanner(System.in);
-//            }
+
         }
     }
 }

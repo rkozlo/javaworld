@@ -3,13 +3,19 @@ import java.util.ArrayList;
 public class Sheep extends Animal {
 
     Sheep(World world, int x, int y) {
-        super(world, new Position(x, y), 5, 'S', 20, 8);
+        super(world, new Position(x, y), 5, 'S', 20, 10);
+        this.feed = new ArrayList<>();
+        feed.add('G');
+    }
+
+    Sheep(World world, Position position) {
+        super(world, position, 5, 'S', 20, 10);
         this.feed = new ArrayList<>();
         feed.add('G');
     }
 
     public void feeded() {
-        this.power++;
+        this.power += 3;
         this.hunger += 5;
     }
 
@@ -22,7 +28,7 @@ public class Sheep extends Animal {
             this.moveOn(pos);
             return true;
         }
-        if (lookedOrganism != null){
+        if (lookedOrganism == null){
             this.moveOn(pos);
             return true;
         }

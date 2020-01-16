@@ -89,12 +89,9 @@ public abstract class Organism{
         }
         if (this.move) return;
         action();
-        this.position.toString();
-
-//        System.out.printf("%d , %d, %s\n", this.position.getX(), this.position.getY(), this.toString());
         this.move = true;
         age++;
-        power++;
+//        power++;
     }
 
     public Organism lookForOrganism(Position pos){
@@ -109,6 +106,7 @@ public abstract class Organism{
         world.delOrganism(this);
         this.isDead = true;
     }
+
 
 
 }

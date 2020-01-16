@@ -7,7 +7,7 @@ public abstract class Animal extends Organism {
 
     Animal(World world, Position pos, int initiative, char species, int liveLength, int powerToReproduce){
         super(world, pos, initiative, species, liveLength, powerToReproduce);
-        this.hunger = 20;
+        this.hunger = 40;
     }
 
     public void moveOn(Position newPosition){
@@ -25,16 +25,23 @@ public abstract class Animal extends Organism {
             world.delOrganism(this);
             return;
         }
+        hunger--;
         List<Position> positions = world.getNeighboringPositions(this.position);
         Position newPosition;
         Random rand = new Random();
 
-        if (positions != null) {
-            while (positions != null) {
+        while (positions != null && positions.size() > 0) {
+            if (positions.size() > 1)
                 newPosition = positions.get(rand.nextInt(positions.size()));
-                Organism orgOnNewPosition = lookForOrganism(newPosition);
-                if(this.specialAction(newPosition))
-                    break;
+            else
+                newPosition = positions.get(0);
+            Organism orgOnNewPosition = lookForOrganism(newPosition);
+            if (world.getMap().isFree(newPosition)) {
+                System.out.println(this.species + " przemieszcza się");
+                moveOn(newPosition);
+                break;
+            }
+            if (orgOnNewPosition != null) {
                 if (canEat(orgOnNewPosition)) {
                     System.out.println(this.species + " zjada " + orgOnNewPosition.species);
                     world.delOrganism(orgOnNewPosition);
@@ -42,20 +49,32 @@ public abstract class Animal extends Organism {
                     this.moveOn(newPosition);
                     return;
                 }
-                if (world.getMap().isFree(newPosition)) {
-//                    System.out.println(this.species + " przemieszcza się");
-                    moveOn(newPosition);
-                    break;
+                System.out.println(this.toString() + " " + orgOnNewPosition.toString());
+                if (orgOnNewPosition.getClass() == this.getClass()) {
+                    Position tempPosition;
+                    if (orgOnNewPosition.getPower() >= powerToReproduce && this.getPower() >= powerToReproduce) {
+                        if((tempPosition = world.getFreeNeighboringPosition(this.position)) != null || (tempPosition = world.getFreeNeighboringPosition(orgOnNewPosition.position)) != null) {
+                            int draw = rand.nextInt(2);
+                            if(draw == 1)
+                                world.addOrganism(this.getSpecies(), tempPosition);
+                            else
+                                return;
+                        }
+                        else
+                            break;
+                        System.out.println("Rodzi się nowy " + this.getSpecies());
+                        return;
+                    }
                 }
-                positions.remove(newPosition);
             }
+
+            positions.remove(newPosition);
         }
     }
 
     public boolean canEat(Organism org){
         if (org != null){
-            System.out.println(this.toString());
-            for (int i=0; i < this.feed.size(); i++)//for (char sign:this.feed)
+            for (int i=0; i < this.feed.size(); i++)
                 if (org.species == this.feed.get(i))
                     return true;
         }

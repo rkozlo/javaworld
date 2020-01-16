@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Scanner;
 
 public class World {
     private int round;
@@ -45,7 +46,8 @@ public class World {
         this.sizeY = sizeY;
     }
 
-    public void makeTurn() {
+    public void makeTurn(){
+        Scanner scanner = new Scanner(System.in);
         this.sortByInitiative();
         for (Organism org:organisms)
             org.setMove(false);
@@ -56,6 +58,7 @@ public class World {
                 org.makeMove();
         }
         printWold();
+        scanner.nextInt();
         round++;
     }
 
@@ -84,18 +87,7 @@ public class World {
     public void delOrganism(Organism org){
         organisms.remove(org);
         map.remFromMap(org);
-        System.out.println("USUWAM");
     }
-
-//    public boolean positionFree(Position pos){
-//        for (Organism org:organisms) {
-//            if (org.position == pos)
-//                return false;
-//        }
-//        return true;
-//    }
-
-
     public Position getFreeNeighboringPosition(Position pos){
         List<Position> neighboringPosition = getNeighboringPositions(pos);
         for (Position position:neighboringPosition){
@@ -110,17 +102,58 @@ public class World {
         this.map.addToMap(org);
     }
 
-    public void addObject(Class org){
+    public Position getRandomPosition(){
         Random rand = new Random();
         int tempX, tempY;
         while(true){
             tempX = rand.nextInt(map.getSizeX());
             tempY = rand.nextInt(map.getSizeY());
             if(map.isFree(new Position(tempX, tempY)))
-                break;
+                return new Position(tempX, tempY);
         }
-//        Object newObject = org.newInstance();
-//        addOrganism(org.newInstance()this, tempX, tempY));
+    }
+
+    public void addRandomOrganism(char spec){
+        Position position = getRandomPosition();
+        switch(spec){
+            case 'S':{
+                addOrganism(new Sheep(this, position));
+                break;
+            }
+            case 'G':{
+                addOrganism(new Grass(this, position));
+                break;
+            }
+            case 'W':{
+                addOrganism(new Wolf(this, position));
+                break;
+            }
+            case 'T':{
+                addOrganism(new Tree(this, position));
+                break;
+            }
+        }
+    }
+
+    public void addOrganism(char spec, Position position){
+        switch(spec){
+            case 'S':{
+                addOrganism(new Sheep(this, position));
+                break;
+            }
+            case 'G':{
+                addOrganism(new Grass(this, position));
+                break;
+            }
+            case 'W':{
+                addOrganism(new Wolf(this, position));
+                break;
+            }
+            case 'T':{
+                addOrganism(new Tree(this, position));
+                break;
+            }
+        }
     }
 
 
@@ -144,5 +177,11 @@ public class World {
                 j--;
             }
         }
+    }
+
+    public void fillTheWorld(){
+        int area = sizeX * sizeY;
+        for(int i=0; i< area/2; i++)
+            addRandomOrganism('G');
     }
 }

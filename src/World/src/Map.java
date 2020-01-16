@@ -63,6 +63,6 @@ public class Map {
         if(org.position.equals(newPosition)) return;
         this.map[newPosition.getX()][newPosition.getY()] = org;
         this.map[org.position.getX()][org.position.getY()] = null;
-        System.out.println(org.toString() + " " + org.position.getX() + " " + org.position.getY() +" nowy " + newPosition.getX() + " " + newPosition.getY());
+//        System.out.println(org.toString() + " " + org.position.getX() + " " + org.position.getY() +" nowy " + newPosition.getX() + " " + newPosition.getY());
     }
 }

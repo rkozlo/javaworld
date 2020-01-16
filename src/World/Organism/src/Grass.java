@@ -1,10 +1,8 @@
+import java.util.Random;
+
 public class Grass extends Plant {
-
-    private static int powerToReproduce;
     public Grass(World world, Position pos){
-//        super(world, pos, pow, init, spec, );
-        super(world, pos, 0, 'G', 30, 4);
-
+        super(world, pos, 0, 'G', 10, 6);
     }
 
     Grass(World world, int x, int y){
@@ -17,7 +15,12 @@ public class Grass extends Plant {
     public void move(){}
 
     @Override
-    public void reproduce(Position pos){
-        world.addOrganism(new Grass(world, pos));
+    public boolean reproduce(Position pos){
+        Random rand = new Random();
+        if(rand.nextInt(2) == 0) {
+            world.addOrganism(new Grass(world, pos));
+            return true;
+        }
+        return false;
     }
 }
