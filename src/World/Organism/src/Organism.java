@@ -81,9 +81,11 @@ public abstract class Organism{
         return isDead;
     }
 
+    public void setIsDead() { this.isDead = true; }
+
     public void makeMove(){
         if (this.age >= liveLength){
-            System.out.println(this.species + " umiera ze staroścu");
+//            System.out.println(this.species + " umiera ze staroścu");
             world.delOrganism(this);
             return;
         }
@@ -91,7 +93,7 @@ public abstract class Organism{
         action();
         this.move = true;
         age++;
-//        power++;
+        power++;
     }
 
     public Organism lookForOrganism(Position pos){

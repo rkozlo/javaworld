@@ -56,7 +56,7 @@ public class Map {
 
     public void remFromMap(Organism org){
         this.map[org.position.getX()][org.position.getY()] = null;
-        System.out.println("USUWAM Z MAPY" + org.toString());
+//        System.out.println("USUWAM Z MAPY" + org.toString());
     }
 
     public void moveOnMap(Organism org, Position newPosition){

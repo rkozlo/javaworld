@@ -48,18 +48,21 @@ public class World {
 
     public void makeTurn(){
         Scanner scanner = new Scanner(System.in);
-        this.sortByInitiative();
-        for (Organism org:organisms)
-            org.setMove(false);
+        int count = scanner.nextInt();
+        while (count > 0) {
+            this.sortByInitiative();
+            for (Organism org : organisms)
+                org.setMove(false);
 
-        List<Organism> tempList = new ArrayList<Organism>(organisms);
-        for (Organism org:tempList){
-            if (this.positionOnBoard(org.position) && !org.ifIsDead() && !org.isMove())
-                org.makeMove();
+            List<Organism> tempList = new ArrayList<Organism>(organisms);
+            for (Organism org : tempList) {
+                if (this.positionOnBoard(org.position) && !org.ifIsDead() && !org.isMove())
+                    org.makeMove();
+            }
+            printWold();
+            round++;
+            count--;
         }
-        printWold();
-        scanner.nextInt();
-        round++;
     }
 
     public List<Position> getNeighboringPositions(Position self){
@@ -87,6 +90,7 @@ public class World {
     public void delOrganism(Organism org){
         organisms.remove(org);
         map.remFromMap(org);
+        org.setIsDead();
     }
     public Position getFreeNeighboringPosition(Position pos){
         List<Position> neighboringPosition = getNeighboringPositions(pos);
@@ -159,7 +163,7 @@ public class World {
 
     public void printWold(){
 //        System.out.flush();
-        System.out.println("\t\t\tTo jest życie... runda " + round);
+        System.out.println("\t\t\tEhh... To jest życie... runda " + round);
         map.printMap();
     }
 
@@ -181,7 +185,13 @@ public class World {
 
     public void fillTheWorld(){
         int area = sizeX * sizeY;
-        for(int i=0; i< area/2; i++)
+        for(int i=0; i< area/8; i++)
             addRandomOrganism('G');
+        for(int i=0; i< area/15; i++)
+            addRandomOrganism('S');
+        for(int i=0; i< area/80; i++)
+            addRandomOrganism('W');
+        for(int i=0; i< area/100; i++)
+            addRandomOrganism('T');
     }
 }

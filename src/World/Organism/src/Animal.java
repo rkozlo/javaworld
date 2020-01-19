@@ -7,7 +7,7 @@ public abstract class Animal extends Organism {
 
     Animal(World world, Position pos, int initiative, char species, int liveLength, int powerToReproduce){
         super(world, pos, initiative, species, liveLength, powerToReproduce);
-        this.hunger = 40;
+        this.hunger = 60;
     }
 
     public void moveOn(Position newPosition){
@@ -19,54 +19,65 @@ public abstract class Animal extends Organism {
 
     public abstract boolean specialAction(Position pos);
 
+    public abstract boolean reproduce(Position position);
+
+    private Position lookForFood(List<Position> list){
+        for(int i=0; i<list.size(); i++)
+            if(list.get(i) != null && this.canEat(lookForOrganism(list.get(i))))
+                return list.get(i);
+        return null;
+    }
+
 @Override
     public void action() {
         if (this.hunger <= 0) {
             world.delOrganism(this);
             return;
         }
-        hunger--;
+//        hunger--;
         List<Position> positions = world.getNeighboringPositions(this.position);
-        Position newPosition;
+        Position newPosition = this.lookForFood(positions);
         Random rand = new Random();
-
+        Organism orgOnNewPosition;
+        if (newPosition != null) {
+        //                    System.out.println(this.species + " zjada " + orgOnNewPosition.species);
+            orgOnNewPosition = lookForOrganism(newPosition);
+            world.delOrganism(orgOnNewPosition);
+            this.feeded();
+            this.moveOn(newPosition);
+            return;
+        }
         while (positions != null && positions.size() > 0) {
-            if (positions.size() > 1)
+            if (newPosition == null && positions.size() > 1)
                 newPosition = positions.get(rand.nextInt(positions.size()));
             else
                 newPosition = positions.get(0);
-            Organism orgOnNewPosition = lookForOrganism(newPosition);
+            orgOnNewPosition = lookForOrganism(newPosition);
             if (world.getMap().isFree(newPosition)) {
-                System.out.println(this.species + " przemieszcza się");
-                moveOn(newPosition);
+//                System.out.println(this.species + " przemieszcza się");
+                if(this.ifReproduce())
+                    this.reproduce(newPosition);
+                else
+                    moveOn(newPosition);
                 break;
             }
-            if (orgOnNewPosition != null) {
-                if (canEat(orgOnNewPosition)) {
-                    System.out.println(this.species + " zjada " + orgOnNewPosition.species);
-                    world.delOrganism(orgOnNewPosition);
-                    this.feeded();
-                    this.moveOn(newPosition);
-                    return;
-                }
-                System.out.println(this.toString() + " " + orgOnNewPosition.toString());
-                if (orgOnNewPosition.getClass() == this.getClass()) {
-                    Position tempPosition;
-                    if (orgOnNewPosition.getPower() >= powerToReproduce && this.getPower() >= powerToReproduce) {
-                        if((tempPosition = world.getFreeNeighboringPosition(this.position)) != null || (tempPosition = world.getFreeNeighboringPosition(orgOnNewPosition.position)) != null) {
-                            int draw = rand.nextInt(2);
-                            if(draw == 1)
-                                world.addOrganism(this.getSpecies(), tempPosition);
-                            else
-                                return;
-                        }
-                        else
-                            break;
-                        System.out.println("Rodzi się nowy " + this.getSpecies());
-                        return;
-                    }
-                }
-            }
+//            if (orgOnNewPosition != null) {
+//                if (orgOnNewPosition.getClass() == this.getClass()) {
+//                    Position tempPosition;
+//                    if (orgOnNewPosition.getPower() >= powerToReproduce && this.getPower() >= powerToReproduce) {
+//                        if((tempPosition = world.getFreeNeighboringPosition(this.position)) != null || (tempPosition = world.getFreeNeighboringPosition(orgOnNewPosition.position)) != null) {
+//                            this.setPower(this.getPower()/2);
+//                            orgOnNewPosition.setPower(orgOnNewPosition.getPower()/2);
+//                            if(!this.reproduce(tempPosition))
+//                                return;
+//                        }
+//                        else
+//                            break;
+////                        System.out.println("Rodzi się nowy " + this.getSpecies());
+//                        return;
+//                    }
+//                }
+//            }
 
             positions.remove(newPosition);
         }

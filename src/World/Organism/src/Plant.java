@@ -10,11 +10,10 @@ public abstract class Plant extends Organism {
             newPosition = world.getFreeNeighboringPosition(this.position);
             if(newPosition != null && newPosition.getX() != -1) {
                 if(reproduce(newPosition));
-                    System.out.println(this.species + " rozprzestrzenia się");
+                    System.out.println();
                 this.power /= 2;
             }
         }
-    power++;
+//    power++;
     }
-
 }
