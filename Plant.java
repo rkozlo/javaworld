@@ -9,7 +9,11 @@ public abstract class Plant extends Organism {
         if (this.ifReproduce()){
             newPosition = world.getFreeNeighboringPosition(this.position);
             if(newPosition != null && newPosition.getX() != -1) {
-                if(reproduce(newPosition));
+                int count = 0;
+                for(Position pos : world.getNeighboringPositions(this.position))
+                    if(lookForOrganism(pos) instanceof Plant)
+                        count++;
+                if( count <= 2 && reproduce(newPosition));
                     System.out.println();
                 this.power /= 2;
             }

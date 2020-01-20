@@ -30,16 +30,16 @@ public abstract class Animal extends Organism {
 
 @Override
     public void action() {
-        if (this.hunger <= 0) {
-            world.delOrganism(this);
-            return;
-        }
-//        hunger--;
+//        if (this.hunger <= 0) {
+//            world.delOrganism(this);
+//            return;
+//        }
+        hunger--;
         List<Position> positions = world.getNeighboringPositions(this.position);
-        Position newPosition = this.lookForFood(positions);
+        Position newPosition;
         Random rand = new Random();
         Organism orgOnNewPosition;
-        if (newPosition != null) {
+        if (this.getHunger() < 30 && (newPosition = this.lookForFood(positions)) != null) {
         //                    System.out.println(this.species + " zjada " + orgOnNewPosition.species);
             orgOnNewPosition = lookForOrganism(newPosition);
             world.delOrganism(orgOnNewPosition);
@@ -47,8 +47,9 @@ public abstract class Animal extends Organism {
             this.moveOn(newPosition);
             return;
         }
+
         while (positions != null && positions.size() > 0) {
-            if (newPosition == null && positions.size() > 1)
+            if (positions.size() > 1)//(newPosition == null && positions.size() > 1)
                 newPosition = positions.get(rand.nextInt(positions.size()));
             else
                 newPosition = positions.get(0);
@@ -90,6 +91,10 @@ public abstract class Animal extends Organism {
                     return true;
         }
         return false;
+    }
+
+    public int getHunger(){
+        return this.hunger;
     }
 }
 

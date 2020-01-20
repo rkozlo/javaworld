@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class main {
 
     public static void main(String[] args) {
@@ -48,11 +50,8 @@ public class main {
 //        world.addRandomOrganism('G');
 //        world.addRandomOrganism('T');
         world.fillTheWorld();
-        int i = 0;
-        while (i < 200) {
+        while(true)
             world.makeTurn();
-            i++;
 
-        }
     }
 }

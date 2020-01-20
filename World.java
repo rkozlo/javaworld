@@ -185,9 +185,9 @@ public class World {
 
     public void fillTheWorld(){
         int area = sizeX * sizeY;
-        for(int i=0; i< area/8; i++)
+        for(int i=0; i< area/10; i++)
             addRandomOrganism('G');
-        for(int i=0; i< area/15; i++)
+        for(int i=0; i< area/40; i++)
             addRandomOrganism('S');
         for(int i=0; i< area/80; i++)
             addRandomOrganism('W');
