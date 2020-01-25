@@ -1,4 +1,4 @@
-public abstract class Organism{
+public abstract class Organism implements OrganismInterface{
     protected int power;
     protected int initiative;
     protected Position position;
@@ -19,47 +19,15 @@ public abstract class Organism{
         this.species = species;
         this.liveLength = liveLength;
         this.powerToReproduce = powerToReproduce;
-        world.addOrganism(this);
         this.isDead = false;
     }
-
-//    Organism(World world, int x, int y){
-//        this.world = world;
-//        this.position.setX(x);
-//        this.position.setY(y);
-//    }
-//    public abstract void individualAction();
-
-//    public abstract void move();
 
     public char getSpecies(){
         return this.species;
     }
 
-    public abstract void action();
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
-    }
-
     public int getInitiative() {
         return initiative;
-    }
-
-    public void setInitiative(int initiative) {
-        this.initiative = initiative;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public boolean isMove() {
@@ -71,7 +39,11 @@ public abstract class Organism{
     }
 
     public boolean ifReproduce(){
-        if (this.power >= this.powerToReproduce)
+        int count=0;
+        for (Position pos: world.getNeighboringPositions(this.position))
+            if( !world.getMap().isFree(pos) && lookForOrganism(pos).getSpecies() == this.getSpecies())
+                count++;
+        if (this.power >= this.powerToReproduce && count <= 2)
             return true;
         else
             return false;
@@ -85,7 +57,6 @@ public abstract class Organism{
 
     public void makeMove(){
         if (this.age >= liveLength){
-//            System.out.println(this.species + " umiera ze staroścu");
             world.delOrganism(this);
             return;
         }
@@ -103,12 +74,4 @@ public abstract class Organism{
         }
         return null;
     }
-
-    public void killOrganism(){
-        world.delOrganism(this);
-        this.isDead = true;
-    }
-
-
-
 }
