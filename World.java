@@ -9,41 +9,24 @@ public class World {
     private int sizeY;
     private List<Organism> organisms;
     private Map map;
+    private OrganismFactory factory;
 
     World(int x, int y){
         this.sizeX = x;
         this.sizeY = y;
         this.organisms = new ArrayList<>();
-        this.map = new Map(sizeX, sizeY);//new Organism[x][y];
+        this.map = new Map(sizeX, sizeY);
         this.round=0;
+        this.factory = new OrganismFactory();
+        factory.setThisWorld(this);
     }
 
-    public int getRound() {
-        return round;
-    }
-
-    public void setRound(int round) {
-        this.round = round;
+    public OrganismFactory getFactory() {
+        return factory;
     }
 
     public List<Organism> getOrganisms(){
         return this.organisms;
-    }
-
-    public int getSizeX() {
-        return sizeX;
-    }
-
-    public void setSizeX(int sizeX) {
-        this.sizeX = sizeX;
-    };
-
-    public int getSizeY() {
-        return sizeY;
-    }
-
-    public void setSizeY(int sizeY) {
-        this.sizeY = sizeY;
     }
 
     public void makeTurn(){
@@ -88,15 +71,20 @@ public class World {
     }
 
     public void delOrganism(Organism org){
-        organisms.remove(org);
         map.remFromMap(org);
+        organisms.remove(org);
         org.setIsDead();
     }
+
     public Position getFreeNeighboringPosition(Position pos){
         List<Position> neighboringPosition = getNeighboringPositions(pos);
-        for (Position position:neighboringPosition){
-            if(map.isFree(position))
-                return position;
+        Random rand = new Random();
+        while(neighboringPosition.size() != 0){
+            int draw = rand.nextInt(neighboringPosition.size());
+            if(map.isFree(neighboringPosition.get(draw)))
+                return neighboringPosition.get(draw);
+            else
+                neighboringPosition.remove(draw);
         }
         return null;
     }
@@ -117,52 +105,7 @@ public class World {
         }
     }
 
-    public void addRandomOrganism(char spec){
-        Position position = getRandomPosition();
-        switch(spec){
-            case 'S':{
-                addOrganism(new Sheep(this, position));
-                break;
-            }
-            case 'G':{
-                addOrganism(new Grass(this, position));
-                break;
-            }
-            case 'W':{
-                addOrganism(new Wolf(this, position));
-                break;
-            }
-            case 'T':{
-                addOrganism(new Tree(this, position));
-                break;
-            }
-        }
-    }
-
-    public void addOrganism(char spec, Position position){
-        switch(spec){
-            case 'S':{
-                addOrganism(new Sheep(this, position));
-                break;
-            }
-            case 'G':{
-                addOrganism(new Grass(this, position));
-                break;
-            }
-            case 'W':{
-                addOrganism(new Wolf(this, position));
-                break;
-            }
-            case 'T':{
-                addOrganism(new Tree(this, position));
-                break;
-            }
-        }
-    }
-
-
     public void printWold(){
-//        System.out.flush();
         System.out.println("\t\t\tEhh... To jest życie... runda " + round);
         map.printMap();
     }
@@ -185,13 +128,22 @@ public class World {
 
     public void fillTheWorld(){
         int area = sizeX * sizeY;
-        for(int i=0; i< area/10; i++)
-            addRandomOrganism('G');
-        for(int i=0; i< area/40; i++)
-            addRandomOrganism('S');
-        for(int i=0; i< area/80; i++)
-            addRandomOrganism('W');
-        for(int i=0; i< area/100; i++)
-            addRandomOrganism('T');
+        Position position;
+        for(int i=0; i< area/20; i++) {
+            position = getRandomPosition();
+            factory.getOrganism('G', position);
+        }
+        for(int i=0; i< area/60; i++) {
+            position = getRandomPosition();
+            factory.getOrganism('S', position);
+        }
+        for(int i=0; i< area/90; i++) {
+            position = getRandomPosition();
+            factory.getOrganism('W', position);
+        }
+        for(int i=0; i< area/100; i++) {
+            position = getRandomPosition();
+            factory.getOrganism('T', position);
+        }
     }
 }

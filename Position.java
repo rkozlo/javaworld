@@ -8,8 +8,6 @@ public class Position {
     }
 
     Position(){
-        this.x = -1;
-        this.y = -1;
     }
 
     public int getX() {
@@ -28,13 +26,6 @@ public class Position {
         this.y = y;
     }
 
-//    public void incrX(){ this.x++; }
-//
-//    public void incrY() { this.y++; }
-//
-//    public void decrX() { this.x--; }
-//
-//    public void decrY() { this.y--; }
 
     public void setPosition(Position pos){
         this.x = pos.getX();
